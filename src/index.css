@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*  */
+body {
+  @apply dark:bg-slate-950;
+}
+
+.custom-input:invalid[data-focused="true"] {
+  @apply border-2 outline-0  border-red-600 dark:border-red-600;
+}
+
+.custom-input:invalid[data-focused="true"] + .error {
+  @apply flex;
+}
+
+.custom-input:focus:invalid[data-focused="true"] {
+  @apply border-0 outline-2 outline-red-600 dark:outline-red-600;
+}
+
+.custom-input:valid[data-focused="true"] {
+  @apply border-2 outline-0 border-green-600 dark:border-green-600;
+}

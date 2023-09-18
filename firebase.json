@@ -1,0 +1,59 @@
+{
+  "hosting": {
+    "public": "dist",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "/api",
+        "function": "api"
+      },
+      {
+        "source": "/api/**",
+        "function": "api"
+      },
+      {
+        "source": "/",
+        "destination": "/index.html"
+      },
+      {
+        "source": "/report",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "functions": [
+    {
+      "source": "api/functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log"
+      ],
+      "predeploy": ["npm --prefix \"$RESOURCE_DIR\" run lint"]
+    }
+  ],
+  "emulators": {
+    "functions": {
+      "host": "172.20.10.3",
+      "port": "5000"
+    },
+    "auth": {
+      "host": "172.20.10.3",
+      "port": 9099
+    },
+    "firestore": {
+      "host": "172.20.10.3",
+      "port": 8080
+    },
+    "hosting": {
+      "host": "172.20.10.3",
+      "port": 5000
+    },
+    "ui": {
+      "enabled": true
+    },
+    "singleProjectMode": true
+  }
+}

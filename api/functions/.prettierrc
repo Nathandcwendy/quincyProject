@@ -1,0 +1,12 @@
+{
+  "bracketSpacing": false,
+  "trailingComma": "all",
+  "overrides": [
+    {
+      "files": "*.eslintrc.js",
+      "options": {
+        "quoteProps": "preserve"
+      }
+    }
+  ]
+}
