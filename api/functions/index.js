@@ -59,6 +59,86 @@ app.get("/api", async (req, res) => {
   res.status(200).send({status: 200, message: "Ok", result: "Hello World"});
 });
 
+// app.get("/api/inventory/:letter", async (req, res) => {
+//   const {letter} = req.params;
+//   const alphabetsArr = [
+//     "a",
+//     "b",
+//     "c",
+//     "d",
+//     "e",
+//     "f",
+//     "g",
+//     "h",
+//     "i",
+//     "j",
+//     "k",
+//     "l",
+//     "m",
+//     "n",
+//     "o",
+//     "p",
+//     "q",
+//     "r",
+//     "s",
+//     "t",
+//     "u",
+//     "v",
+//     "w",
+//     "x",
+//     "y",
+//     "z",
+//   ];
+//   const arr = [];
+//   if (letter.length === 1 && alphabetsArr.includes(letter.toLowerCase())) {
+//     try {
+//       const snapShot = await db
+//         .collection(`index_${letter.toUpperCase()}`)
+//         .get();
+//       if (!snapShot.empty) {
+//         snapShot.forEach((i) => arr.push(i.data()));
+//         const obj = {
+//           status: 200,
+//           message: "Ok",
+//           results: arr,
+//         };
+//         res.send(obj);
+//       } else {
+//         res.status(404).send({status: 404, message: "Data Not Found"});
+//       }
+//     } catch (err) {
+//       console.log(err);
+//       res.status(500).send({
+//         status: res.statusCode,
+//         message: "Internal Server Error",
+//       });
+//     }
+//   } else if (letter.length === 1) {
+//     try {
+//       const snapShot = await db.collection(`index_misc`).get();
+//       if (!snapShot.empty) {
+//         snapShot.forEach((i) => arr.push(i.data()));
+//         const obj = {
+//           status: 200,
+//           message: "Ok",
+//           results: arr,
+//         };
+//         res.send(obj);
+//       } else {
+//         res.status(404).send({status: 404, message: "Data Not Found"});
+//       }
+//     } catch (err) {
+//       console.log(err);
+//       res.status(500).send({
+//         status: res.statusCode,
+//         message: "Internal Server Error",
+//       });
+//     }
+//   } else {
+//     res.status(400).send({status: 400, message: "Invalid Request"});
+//   }
+// });
+
 app.get("/api/inventory/:letter", async (req, res) => {
   const {letter} = req.params;
   const alphabetsArr = [
@@ -93,10 +173,16 @@ app.get("/api/inventory/:letter", async (req, res) => {
   if (letter.length === 1 && alphabetsArr.includes(letter.toLowerCase())) {
     try {
       const snapShot = await db
-        .collection(`index_${letter.toUpperCase()}`)
+        .collection("indexes")
+        .doc(`index_${letter.toUpperCase()}`)
         .get();
       if (!snapShot.empty) {
-        snapShot.forEach((i) => arr.push(i.data()));
+        for (const [key, value] of Object.entries(snapShot.data())) {
+          const obj = {};
+          obj.id = key;
+          obj.name = value;
+          arr.push(obj);
+        }
         const obj = {
           status: 200,
           message: "Ok",
@@ -115,9 +201,14 @@ app.get("/api/inventory/:letter", async (req, res) => {
     }
   } else if (letter.length === 1) {
     try {
-      const snapShot = await db.collection(`index_misc`).get();
+      const snapShot = await db.collection("indexes").doc(`index_misc`).get();
       if (!snapShot.empty) {
-        snapShot.forEach((i) => arr.push(i.data()));
+        for (const [key, value] of Object.entries(snapShot.data())) {
+          const obj = {};
+          obj.id = key;
+          obj.name = value;
+          arr.push(obj);
+        }
         const obj = {
           status: 200,
           message: "Ok",
